@@ -4,7 +4,8 @@ import { exec } from '@yao-pkg/pkg'
 const platform = process.env.SCORESYNC_TARGET_PLATFORM ?? process.platform
 if (!['linux', 'win32', 'darwin'].includes(platform)) throw new Error(`Unsupported platform: ${platform}`)
 const target = `node22-${{ win32: 'win', darwin: 'macos', linux: 'linux' }[platform]}-${process.arch}`
-const output = resolve('release', `${platform}-${process.arch}`)
+const outputPlatform = platform === 'win32' ? 'windows' : platform
+const output = resolve('release', `${outputPlatform}-${process.arch}`)
 await mkdir(join(output, 'assets'), { recursive: true })
 await mkdir(join(output, 'levels'), { recursive: true })
 await mkdir(join(output, 'licenses'), { recursive: true })
