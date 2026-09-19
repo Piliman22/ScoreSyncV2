@@ -40,7 +40,9 @@ jobs:
         run: |
           mkdir -p artifact
           if [ "${{ runner.os }}" = "Windows" ]; then
-            7z a "artifact/${{ matrix.artifact }}.zip" "release/windows-x64/*"
+            # Package whatever directory name the native Windows runner used
+            # (windows-x64 or win32-x64), without relying on shell path rules.
+            7z a "artifact/${{ matrix.artifact }}.zip" ./release/*
           else
             tar -C release -czf "artifact/${{ matrix.artifact }}.tar.gz" linux-x64
           fi
@@ -49,4 +51,3 @@ jobs:
         with:
           name: ${{ matrix.artifact }}
           path: artifact/*
-
