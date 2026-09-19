@@ -1,0 +1,42 @@
+{
+  "name": "scoresync_v2",
+  "version": "2.0.0",
+  "description": "Local USC/SUS charts served live through Honolus",
+  "main": "dist/index.cjs",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.cjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "assets": "node scripts/build-assets.mjs",
+    "build": "npm run typecheck && node scripts/build.mjs",
+    "check": "npm run typecheck && npm test && npm run build",
+    "package": "npm run assets && npm run build && node scripts/package.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@hono/node-server": "^2.1.1",
+    "@sonolus/core": "^7.15.4",
+    "@sonolus/free-pack": "^1.2.0",
+    "@untitledsekai/honolus": "^1.0.1",
+    "chokidar": "^5.0.0",
+    "hono": "^4.13.7",
+    "smol-toml": "^1.8.0",
+    "usctool": "^0.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "@yao-pkg/pkg": "^6.22.0",
+    "esbuild": "^0.28.2",
+    "fflate": "^0.8.3",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

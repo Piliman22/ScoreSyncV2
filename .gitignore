@@ -1,0 +1,7 @@
+node_modules/
+_reference/
+dist/
+release/
+levels/*
+!levels/.gitkeep
+*.log

@@ -1,0 +1,52 @@
+name: Build ScoreSync binaries
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact: scoresync-linux-x64
+          - os: windows-latest
+            artifact: scoresync-windows-x64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Check and build
+        run: npm run check
+      - name: Build assets and package binary
+        run: npm run package
+      - name: Archive package
+        shell: bash
+        run: |
+          mkdir -p artifact
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            7z a "artifact/${{ matrix.artifact }}.zip" "release/windows-x64/*"
+          else
+            tar -C release -czf "artifact/${{ matrix.artifact }}.tar.gz" linux-x64
+          fi
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: artifact/*
+
