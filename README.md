@@ -1,4 +1,4 @@
-# ScoreSync Next
+# ScoreSyncV2
 
 USC / SUS譜面を、そのままSonolusサーバーとして公開するローカルアプリケーションです。Honolusを使ってSonolusのルートを登録し、譜面変換結果はファイルへ保存せずメモリから配信します。
 
